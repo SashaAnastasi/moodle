@@ -162,7 +162,7 @@ class api {
             array_push($info[$cra->get('userid')][$cra->get('roleid')], $cra->get('cohortid'));
         }
         // Then for each user+role combo - find user context in the cohort without a role assigned.
-        //MDL-60160: Added filter for deleted user.
+        // MDL-60160: Added filter for deleted user.
 
         foreach ($info as $userid => $roles) {
             foreach ($roles as $roleid => $cohorts) {
