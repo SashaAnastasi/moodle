@@ -45,13 +45,20 @@ $messageproviders = array (
          'capability'  => 'moodle/site:config'
     ),
 
-    // cron-based notifications about available moodle and/or additional plugin updates
-    'availableupdate' => array(
+    // Cron-based notifications about available moodle core updates.
+    'availablecoreupdate' => array(
         'capability' => 'moodle/site:config',
         'defaults' => array(
             'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF
         ),
+    ),
 
+    // Cron-based notifications about available plugin updates.
+    'availablepluginupdate' => array(
+        'capability' => 'moodle/site:config',
+        'defaults' => array(
+            'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF
+        ),
     ),
 
     'instantmessage' => array (
