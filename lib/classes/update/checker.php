@@ -731,86 +731,98 @@ class checker {
         }
 
         if (!empty($coreupdates)) {
-            $text .= PHP_EOL . get_string('updateavailable', 'core_admin') . PHP_EOL;
-            $html .= html_writer::tag('h2', get_string('updateavailable', 'core_admin')) . PHP_EOL;
-            $html .= html_writer::start_tag('ul') . PHP_EOL;
+            $coretext = $text . PHP_EOL . get_string('updateavailable', 'core_admin') . PHP_EOL;
+            $corehtml = $html . html_writer::tag('h2', get_string('updateavailable', 'core_admin')) . PHP_EOL;
+            $corehtml .= html_writer::start_tag('ul') . PHP_EOL;
             foreach ($coreupdates as $coreupdate) {
-                $html .= html_writer::start_tag('li');
+                $corehtml .= html_writer::start_tag('li');
                 if (isset($coreupdate->release)) {
-                    $text .= get_string('updateavailable_release', 'core_admin', $coreupdate->release);
-                    $html .= html_writer::tag('strong', get_string('updateavailable_release', 'core_admin', $coreupdate->release));
+                    $coretext .= get_string('updateavailable_release', 'core_admin', $coreupdate->release);
+                    $corehtml .= html_writer::tag('strong',
+                        get_string('updateavailable_release', 'core_admin', $coreupdate->release));
                 }
                 if (isset($coreupdate->version)) {
-                    $text .= ' '.get_string('updateavailable_version', 'core_admin', $coreupdate->version);
-                    $html .= ' '.get_string('updateavailable_version', 'core_admin', $coreupdate->version);
+                    $coretext .= ' '.get_string('updateavailable_version', 'core_admin', $coreupdate->version);
+                    $corehtml .= ' '.get_string('updateavailable_version', 'core_admin', $coreupdate->version);
                 }
                 if (isset($coreupdate->maturity)) {
-                    $text .= ' ('.get_string('maturity'.$coreupdate->maturity, 'core_admin').')';
-                    $html .= ' ('.get_string('maturity'.$coreupdate->maturity, 'core_admin').')';
+                    $coretext .= ' ('.get_string('maturity'.$coreupdate->maturity, 'core_admin').')';
+                    $corehtml .= ' ('.get_string('maturity'.$coreupdate->maturity, 'core_admin').')';
                 }
-                $text .= PHP_EOL;
-                $html .= html_writer::end_tag('li') . PHP_EOL;
+                $coretext .= PHP_EOL;
+                $corehtml .= html_writer::end_tag('li') . PHP_EOL;
             }
-            $text .= PHP_EOL;
-            $html .= html_writer::end_tag('ul') . PHP_EOL;
+            $coretext .= PHP_EOL;
+            $corehtml .= html_writer::end_tag('ul') . PHP_EOL;
 
             $a = array('url' => $CFG->wwwroot.'/'.$CFG->admin.'/index.php');
-            $text .= get_string('updateavailabledetailslink', 'core_admin', $a) . PHP_EOL;
+            $coretext .= get_string('updateavailabledetailslink', 'core_admin', $a) . PHP_EOL;
             $a = array('url' => html_writer::link($CFG->wwwroot.'/'.$CFG->admin.'/index.php', $CFG->wwwroot.'/'.$CFG->admin.'/index.php'));
-            $html .= html_writer::tag('p', get_string('updateavailabledetailslink', 'core_admin', $a)) . PHP_EOL;
+            $corehtml .= html_writer::tag('p', get_string('updateavailabledetailslink', 'core_admin', $a)) . PHP_EOL;
 
-            $text .= PHP_EOL . get_string('updateavailablerecommendation', 'core_admin') . PHP_EOL;
-            $html .= html_writer::tag('p', get_string('updateavailablerecommendation', 'core_admin')) . PHP_EOL;
+            $coretext .= PHP_EOL . get_string('updateavailablerecommendation', 'core_admin') . PHP_EOL;
+            $corehtml .= html_writer::tag('p', get_string('updateavailablerecommendation', 'core_admin')) . PHP_EOL;
         }
 
         if (!empty($pluginupdates)) {
-            $text .= PHP_EOL . get_string('updateavailableforplugin', 'core_admin') . PHP_EOL;
-            $html .= html_writer::tag('h2', get_string('updateavailableforplugin', 'core_admin')) . PHP_EOL;
+            $plugintext = $text . PHP_EOL . get_string('updateavailableforplugin', 'core_admin') . PHP_EOL;
+            $pluginhtml = $html . html_writer::tag('h2', get_string('updateavailableforplugin', 'core_admin')) . PHP_EOL;
 
-            $html .= html_writer::start_tag('ul') . PHP_EOL;
+            $pluginhtml .= html_writer::start_tag('ul') . PHP_EOL;
             foreach ($pluginupdates as $pluginupdate) {
-                $html .= html_writer::start_tag('li');
-                $text .= get_string('pluginname', $pluginupdate->component);
-                $html .= html_writer::tag('strong', get_string('pluginname', $pluginupdate->component));
+                $pluginhtml .= html_writer::start_tag('li');
+                $plugintext .= get_string('pluginname', $pluginupdate->component);
+                $pluginhtml .= html_writer::tag('strong', get_string('pluginname', $pluginupdate->component));
 
-                $text .= ' ('.$pluginupdate->component.')';
-                $html .= ' ('.$pluginupdate->component.')';
+                $plugintext .= ' ('.$pluginupdate->component.')';
+                $pluginhtml .= ' ('.$pluginupdate->component.')';
 
-                $text .= ' '.get_string('updateavailable', 'core_plugin', $pluginupdate->version);
-                $html .= ' '.get_string('updateavailable', 'core_plugin', $pluginupdate->version);
+                $plugintext .= ' '.get_string('updateavailable', 'core_plugin', $pluginupdate->version);
+                $pluginhtml .= ' '.get_string('updateavailable', 'core_plugin', $pluginupdate->version);
 
-                $text .= PHP_EOL;
-                $html .= html_writer::end_tag('li') . PHP_EOL;
+                $plugintext .= PHP_EOL;
+                $pluginhtml .= html_writer::end_tag('li') . PHP_EOL;
             }
-            $text .= PHP_EOL;
-            $html .= html_writer::end_tag('ul') . PHP_EOL;
+            $plugintext .= PHP_EOL;
+            $pluginhtml .= html_writer::end_tag('ul') . PHP_EOL;
 
             $a = array('url' => $CFG->wwwroot.'/'.$CFG->admin.'/plugins.php');
-            $text .= get_string('updateavailabledetailslink', 'core_admin', $a) . PHP_EOL;
+            $plugintext .= get_string('updateavailabledetailslink', 'core_admin', $a) . PHP_EOL;
             $a = array('url' => html_writer::link($CFG->wwwroot.'/'.$CFG->admin.'/plugins.php', $CFG->wwwroot.'/'.$CFG->admin.'/plugins.php'));
-            $html .= html_writer::tag('p', get_string('updateavailabledetailslink', 'core_admin', $a)) . PHP_EOL;
+            $pluginhtml .= html_writer::tag('p', get_string('updateavailabledetailslink', 'core_admin', $a)) . PHP_EOL;
         }
 
         $a = array('siteurl' => $CFG->wwwroot);
-        $text .= PHP_EOL . get_string('updatenotificationfooter', 'core_admin', $a) . PHP_EOL;
+        $footertext = PHP_EOL . get_string('updatenotificationfooter', 'core_admin', $a) . PHP_EOL;
         $a = array('siteurl' => html_writer::link($CFG->wwwroot, $CFG->wwwroot));
-        $html .= html_writer::tag('footer', html_writer::tag('p', get_string('updatenotificationfooter', 'core_admin', $a),
+        $footerhtml = html_writer::tag('footer', html_writer::tag('p', get_string('updatenotificationfooter', 'core_admin', $a),
             array('style' => 'font-size:smaller; color:#333;')));
 
-        foreach ($admins as $admin) {
-            $message = new \core\message\message();
-            $message->courseid          = SITEID;
-            $message->component         = 'moodle';
-            $message->name              = 'availableupdate';
-            $message->userfrom          = get_admin();
-            $message->userto            = $admin;
-            $message->subject           = get_string('updatenotificationsubject', 'core_admin', array('siteurl' => $CFG->wwwroot));
-            $message->fullmessage       = $text;
-            $message->fullmessageformat = FORMAT_PLAIN;
-            $message->fullmessagehtml   = $html;
-            $message->smallmessage      = get_string('updatenotifications', 'core_admin');
-            $message->notification      = 1;
-            message_send($message);
+        $types = ['core', 'plugin'];
+        foreach ($types as $type) {
+            $check = $type . 'updates';
+            if (!empty($$check)) {
+                $text = $type . 'text';
+                $html = $type . 'html';
+                $$text .= $footertext;
+                $$html .= $footerhtml;
+                foreach ($admins as $admin) {
+                    $message = new \core\message\message();
+                    $message->courseid          = SITEID;
+                    $message->component         = 'moodle';
+                    $message->name              = 'available' . $type . 'update';
+                    $message->userfrom          = get_admin();
+                    $message->userto            = $admin;
+                    $message->subject           = get_string('updatenotificationsubject', 'core_admin',
+                        array('siteurl' => $CFG->wwwroot));
+                    $message->fullmessage       = $$text;
+                    $message->fullmessageformat = FORMAT_PLAIN;
+                    $message->fullmessagehtml   = $$html;
+                    $message->smallmessage      = get_string('updatenotifications', 'core_admin');
+                    $message->notification      = 1;
+                    message_send($message);
+                }
+            }
         }
     }
 
