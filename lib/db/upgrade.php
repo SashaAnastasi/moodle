@@ -4558,5 +4558,33 @@ privatefiles,moodle|/user/files.php';
         upgrade_main_savepoint(true, 2022041904.14);
     }
 
+    if ($oldversion < 2022041905.04) {
+        // Add two new message providers (core and plugin) to replace available update message provider.
+
+        $transaction = $DB->start_delegated_transaction();
+        // Insert the new message providers into the database.
+        $recordcore = (object) [
+            'name' => 'availablecoreupdate',
+            'component' => 'moodle',
+            'capability' => 'moodle/site:config'
+        ];
+        $DB->insert_record('message_providers', $recordcore);
+        $recordplugin = (object) [
+            'name' => 'availablepluginupdate',
+            'component' => 'moodle',
+            'capability' => 'moodle/site:config'
+        ];
+        $DB->insert_record('message_providers', $recordplugin);
+
+        // Remove the already-existing general "update available" message provider.
+        $select = "component='moodle' AND name='availableupdate'";
+        $DB->delete_records_select('message_providers', $select);
+
+        $transaction->allow_commit();
+
+        // Main savepoint reached.
+        upgrade_main_savepoint(true, 2022041905.04);
+    }
+
     return true;
 }
